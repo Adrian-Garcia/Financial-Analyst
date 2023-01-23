@@ -1,0 +1,34 @@
+<!-- load static is to let know Django that there is a static folder to add the ref links -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title>Financial Analyst</title>
+</head>
+<body>
+  <header>
+    <h1>Financial Analyst</h1>
+  </header>
+  <main>
+    {% if fundamental_analysis_list %}
+      <ul>
+      {% for fundamental_analysis in fundamental_analysis_list %}
+        <li>
+          <a href="">
+            {{ fundamental_analysis.name }}
+          </a>
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p>No fundamental analysis is available</p>
+    {% endif %}
+  </main>
+</body>
+</html>
