@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>{{ fundamental_analysis.name }}</title>
+</head>
+<body class="m-5">
+    <h1>{{ fundamental_analysis.name }}</h1>
+
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Company</th>
+          <th scope="col">Current Ratio</th>
+          <th scope="col">Quick Ratio</th>
+          <th scope="col">Cash Ratio</th>
+          <th scope="col">Debt/Equity</th>
+          <th scope="col">Inventory Turnover</th>
+          <th scope="col">Days Inventory</th>
+          <th scope="col">Assets Turnover</th>
+          <th scope="col">ROE</th>
+          <th scope="col">Net Margin</th>
+          <th scope="col">PER</th>
+          <th scope="col">PCF</th>
+          <th scope="col">PS</th>
+          <th scope="col">PBV</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stock in fundamental_analysis.stock_set.all %}
+          <tr>
+            <th scope="row">{{ stock }}</th>
+            <td>{{ stock.current_ratio }}</td>
+            <td>{{ stock.quick_ratio }}</td>
+            <td>{{ stock.cash_ratio }}</td>
+            <td>{{ stock.debt_equity }}</td>
+            <td>{{ stock.inventory_turnover }}</td>
+            <td>{{ stock.days_inventory }}</td>
+            <td>{{ stock.assets_turnover }}</td>
+            <td>{{ stock.roe }}</td>
+            <td>{{ stock.net_margin }}</td>
+            <td>{{ stock.per }}</td>
+            <td>{{ stock.pcf }}</td>
+            <td>{{ stock.ps }}</td>
+            <td>{{ stock.pbv }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    
+</fieldset>
+</body>
+</html>
