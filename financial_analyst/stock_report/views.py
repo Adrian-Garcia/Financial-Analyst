@@ -12,8 +12,13 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return FundamentalAnalysis.objects.all()
 
+
 def detail(request, fundamental_analysis_id):
-    fundamental_analysis = get_object_or_404(FundamentalAnalysis, pk=fundamental_analysis_id)
-    return render(request, "stock_report/detail.html", {
-        "fundamental_analysis": fundamental_analysis
-    })
+    fundamental_analysis = get_object_or_404(
+        FundamentalAnalysis, pk=fundamental_analysis_id
+    )
+    return render(
+        request,
+        "stock_report/detail.html",
+        {"fundamental_analysis": fundamental_analysis},
+    )
