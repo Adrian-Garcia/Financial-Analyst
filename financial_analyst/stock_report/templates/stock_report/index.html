@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <title>Financial Analyst</title>
-</head>
-<body class="m-5">
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="m-5">
   <header class="d-flex">
     <h1>Financial Analyst</h1>
     <a href="{% url 'stock_reports:new' %}">
@@ -29,5 +23,5 @@
       <p>No fundamental analysis are available</p>
     {% endif %}
   </main>
-</body>
-</html>
+</div>
+{% endblock %}
