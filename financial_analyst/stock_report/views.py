@@ -1,6 +1,9 @@
+from django.urls import reverse
 from django.shortcuts import render
 from django.views import generic
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 
 from .models import FundamentalAnalysis, Stock
 
@@ -22,3 +25,26 @@ def detail(request, fundamental_analysis_id):
         "stock_report/detail.html",
         {"fundamental_analysis": fundamental_analysis},
     )
+
+def new_fundamental_analysis(request):
+    fundamental_analysis = FundamentalAnalysis()
+    return render(
+        request,
+        "stock_report/create.html",
+        {"fundamental_analysis": fundamental_analysis },
+    )
+
+def create_fundamental_analysis(request):
+    try:
+        fundamental_analysis = FundamentalAnalysis()
+        fundamental_analysis.name=request.POST["name"]
+        fundamental_analysis.industry=request.POST["industry"]
+        fundamental_analysis.save()
+
+        return HttpResponseRedirect(reverse("stock_reports:detail", args=(fundamental_analysis.id,)))
+
+    except:
+        return render(request, "stock_report/create.html", {
+            "fundamental_analysis": fundamental_analysis,
+            "error_message": "Analisis fundamental no creado"
+        })
