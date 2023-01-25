@@ -6,6 +6,7 @@ import certifi
 
 API_KEY = "58f91c97ad7ca8846322ee09d634a66c"
 
+
 class FundamentalAnalysis(models.Model):
     name = models.CharField(max_length=30)
     industry = models.CharField(max_length=30)
@@ -50,7 +51,7 @@ class Stock(models.Model):
         return f"{self.ticker}: {self.name}"
 
     def update_stock_ratios(self):
-        url = (f"https://financialmodelingprep.com/api/v3/ratios/{self.ticker}?apikey={API_KEY}")
+        url = f"https://financialmodelingprep.com/api/v3/ratios/{self.ticker}?apikey={API_KEY}"
         response = urlopen(url, cafile=certifi.where())
         data = response.read().decode("utf-8")
         json_data = json.loads(data)
@@ -62,13 +63,13 @@ class Stock(models.Model):
         self.cash_ratio = latest_year["cashRatio"]
         self.debt_equity = latest_year["debtEquityRatio"]
         self.inventory_turnover = latest_year["inventoryTurnover"]
-        self.days_inventory = latest_year["daysOfInventoryOutstanding"] # Not sure about this
+        self.days_inventory = latest_year[
+            "daysOfInventoryOutstanding"
+        ]  # Not sure about this
         self.assets_turnover = latest_year["assetTurnover"]
         # self.roe
-        self.net_margin = latest_year["netProfitMargin"] # Not sure about this
+        self.net_margin = latest_year["netProfitMargin"]  # Not sure about this
         # self.per
         # self.pcf
         # self.ps
         # self.pbv
-
-        
