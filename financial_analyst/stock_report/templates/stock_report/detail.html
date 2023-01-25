@@ -3,7 +3,9 @@
 {% block content %}
 <div class="m-5">
   <h1>{{ fundamental_analysis.name }}</h1>
-  
+  {% if not fundamental_analysis.stock_set.all %}
+  <p>El análisis fundamental no tiene acciones para analizar</p>
+  {% else %}
   <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -44,6 +46,7 @@
         {% endfor %}
       </tbody>
   </table>
-</div>
+  {% endif %}
 
+</div>
 {% endblock %}
