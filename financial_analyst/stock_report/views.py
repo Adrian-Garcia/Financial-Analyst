@@ -32,8 +32,9 @@ def new_fundamental_analysis(request):
     return render(
         request,
         "stock_report/create.html",
-        {"fundamental_analysis": fundamental_analysis},
+        {"fundamental_analysis": fundamental_analysis, "tickers": ""},
     )
+
 
 # Move function away from this file
 def get_stocks(tickers: str) -> List[Stock]:
@@ -56,30 +57,35 @@ def get_stocks(tickers: str) -> List[Stock]:
 
     return res_stocks
 
+
 # Move function away from this file
-def get_errors(fundamental_analysis: FundamentalAnalysis, stocks: List[Stock]) -> List[str]:
+def get_errors(
+    fundamental_analysis: FundamentalAnalysis, stocks: List[Stock]
+) -> List[str]:
     errors = []
     if not fundamental_analysis.name:
         errors.append("Analisis Fundamental debe tener nombre")
-    
+
     for stock in stocks:
         if type(stock) != Stock:
             errors.append(f"El ticker {stock} no pudo ser encontrado")
-    
+
     return errors
+
 
 def create_fundamental_analysis(request):
     fundamental_analysis = FundamentalAnalysis()
     fundamental_analysis.name = request.POST["name"]
     fundamental_analysis.industry = request.POST["industry"]
+    tickers = request.POST["tickers"]
 
-    stocks = get_stocks(request.POST["tickers"].upper())
+    stocks = get_stocks(tickers.upper())
     errors = get_errors(fundamental_analysis, stocks)
 
     if not errors:
         fundamental_analysis.save()
         for stock in stocks:
-            stock.fundamental_analyses.add(fundamental_analysis) 
+            stock.fundamental_analyses.add(fundamental_analysis)
             stock.save()
 
         return HttpResponseRedirect(
@@ -91,6 +97,7 @@ def create_fundamental_analysis(request):
         "stock_report/create.html",
         {
             "fundamental_analysis": fundamental_analysis,
+            "tickers": tickers,
             "errors": errors,
         },
     )

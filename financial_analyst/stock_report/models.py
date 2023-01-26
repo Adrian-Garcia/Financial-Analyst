@@ -65,7 +65,7 @@ class Stock(models.Model):
         self.quick_ratio = latest_year["quickRatio"]
         self.cash_ratio = latest_year["cashRatio"]
         self.debt_equity = latest_year["debtEquityRatio"]
-        self.inventory_turnover = latest_year["inventoryTurnover"] 
+        self.inventory_turnover = latest_year["inventoryTurnover"]
         self.assets_turnover = latest_year["assetTurnover"]
 
         self.net_margin = latest_year["netProfitMargin"]  # Not sure about this
