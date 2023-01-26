@@ -17,9 +17,7 @@ class FundamentalAnalysis(models.Model):
 
 
 class Stock(models.Model):
-    fundamental_analysis = models.ForeignKey(
-        FundamentalAnalysis, on_delete=models.CASCADE
-    )
+    fundamental_analyses = models.ManyToManyField(FundamentalAnalysis)
 
     # Stock basic info
     ticker = models.CharField(max_length=15)
@@ -50,11 +48,15 @@ class Stock(models.Model):
     def __str__(self):
         return f"{self.ticker}: {self.name}"
 
-    def update_stock_ratios(self):
+    def update_stock_ratios(self) -> bool:
         url = f"https://financialmodelingprep.com/api/v3/ratios/{self.ticker}?apikey={API_KEY}"
         response = urlopen(url, cafile=certifi.where())
         data = response.read().decode("utf-8")
         json_data = json.loads(data)
+
+        if not json_data:
+            return False
+
         latest_year = json_data[0]
 
         self.stock_price = None
@@ -63,13 +65,16 @@ class Stock(models.Model):
         self.cash_ratio = latest_year["cashRatio"]
         self.debt_equity = latest_year["debtEquityRatio"]
         self.inventory_turnover = latest_year["inventoryTurnover"]
-        self.days_inventory = latest_year[
-            "daysOfInventoryOutstanding"
-        ]  # Not sure about this
         self.assets_turnover = latest_year["assetTurnover"]
-        # self.roe
+
         self.net_margin = latest_year["netProfitMargin"]  # Not sure about this
+        # Not sure about this
+        self.days_inventory = latest_year["daysOfInventoryOutstanding"]
+
+        # self.roe
         # self.per
         # self.pcf
         # self.ps
         # self.pbv
+
+        return True

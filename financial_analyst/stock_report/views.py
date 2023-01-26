@@ -1,3 +1,4 @@
+from typing import List
 from django.urls import reverse
 from django.shortcuts import render
 from django.views import generic
@@ -35,13 +36,37 @@ def new_fundamental_analysis(request):
     )
 
 
+def get_stocks(tickers: str) -> List[Stock]:
+    res_stocks = []
+
+    for ticker in tickers.split():
+        stock = Stock.get(ticker=ticker)
+
+        if stock:
+            res_stocks.append(stock)
+            continue
+
+        stock = Stock(ticker = ticker)
+        if (stock.update_stock_ratios()):
+            res_stocks.append(stock)
+            continue
+
+        res_stocks.append(ticker)
+
+    return res_stocks
+
+
 def create_fundamental_analysis(request):
     fundamental_analysis = FundamentalAnalysis()
     fundamental_analysis.name = request.POST["name"]
     fundamental_analysis.industry = request.POST["industry"]
 
-    if fundamental_analysis.name and fundamental_analysis.industry:
+    # stocks = get_stocks(request.POST["tickers"])
+    stocks = []
+
+    if fundamental_analysis.name and fundamental_analysis.industry and all(isinstance(stock, Stock) for stock in stocks):
         fundamental_analysis.save()
+        map(lambda stock: stock.save(), stocks)
 
         return HttpResponseRedirect(
             reverse("stock_reports:detail", args=(fundamental_analysis.id,))
