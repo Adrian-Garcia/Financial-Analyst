@@ -46,8 +46,8 @@ def get_stocks(tickers: str) -> List[Stock]:
             res_stocks.append(stock)
             continue
 
-        stock = Stock(ticker = ticker)
-        if (stock.update_stock_ratios()):
+        stock = Stock(ticker=ticker)
+        if stock.update_stock_ratios():
             res_stocks.append(stock)
             continue
 
@@ -64,7 +64,11 @@ def create_fundamental_analysis(request):
     # stocks = get_stocks(request.POST["tickers"])
     stocks = []
 
-    if fundamental_analysis.name and fundamental_analysis.industry and all(isinstance(stock, Stock) for stock in stocks):
+    if (
+        fundamental_analysis.name
+        and fundamental_analysis.industry
+        and all(isinstance(stock, Stock) for stock in stocks)
+    ):
         fundamental_analysis.save()
         map(lambda stock: stock.save(), stocks)
 

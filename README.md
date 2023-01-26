@@ -31,7 +31,7 @@ python3 manage.py shell
 
 Or use Graphic Interface by typing:  
 ```
-python3 manage.py cretesuperuser
+python3 manage.py createsuperuser
 ``` 
 
 Then create username, add email and set a password. It is important to denotate that we should be carefull with this information because in here we are going to create a user that manipulates the database. After completing this step, go to http://127.0.0.1:8000/admin and see the django administrator.
@@ -48,9 +48,11 @@ Run tests
 python3 manage.py test <app_to_test>
 ```
 
-## Future features 
+Tests are located in tests.py file
+
+## Future functionalities
 - Machine Learning models to predict stock price
 - Better UX/UI dessign (because a back-end engineer designed this)
-- User Morning star and Investing APIs
 - Buy/Sell stocks depending on price
 - Use this as a daily bassis trading platform
+- Support several users
