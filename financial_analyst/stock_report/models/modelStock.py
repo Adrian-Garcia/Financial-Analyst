@@ -1,20 +1,11 @@
-from django.utils import timezone
 from django.db import models
+from .modelFundamentalAnalysis import FundamentalAnalysis
+from django.utils import timezone
 from urllib.request import urlopen
 import json
 import certifi
 
 API_KEY = "58f91c97ad7ca8846322ee09d634a66c"
-
-
-class FundamentalAnalysis(models.Model):
-    name = models.CharField(max_length=30)
-    industry = models.CharField(max_length=30)
-    last_update = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.name
-
 
 class Stock(models.Model):
     fundamental_analyses = models.ManyToManyField(FundamentalAnalysis)
@@ -65,7 +56,7 @@ class Stock(models.Model):
         self.quick_ratio = latest_year["quickRatio"]
         self.cash_ratio = latest_year["cashRatio"]
         self.debt_equity = latest_year["debtEquityRatio"]
-        self.inventory_turnover = latest_year["inventoryTurnover"]
+        self.inventory_turnover = latest_year["inventoryTurnover"] 
         self.assets_turnover = latest_year["assetTurnover"]
 
         self.net_margin = latest_year["netProfitMargin"]  # Not sure about this

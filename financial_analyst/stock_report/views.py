@@ -7,7 +7,8 @@ from django.http import HttpResponseRedirect
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 
-from .models import FundamentalAnalysis, Stock
+from stock_report.models.modelFundamentalAnalysis import FundamentalAnalysis
+from stock_report.models.modelStock import Stock
 
 
 class IndexView(generic.ListView):

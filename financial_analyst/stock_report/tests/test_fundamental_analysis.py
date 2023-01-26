@@ -2,7 +2,7 @@ from typing import List
 from stock_report.tests.test_stock import create_stock
 from django.test import TestCase
 from django.urls import reverse
-from stock_report.models import FundamentalAnalysis, Stock
+from stock_report.models.modelFundamentalAnalysis import FundamentalAnalysis
 
 
 def create_fundamental_analysis(name: str) -> FundamentalAnalysis:
