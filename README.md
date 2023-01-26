@@ -1,5 +1,5 @@
 # Financial Analyst (Name pending)
-This is a platofrm that is going to be used to do tecnical and fundamental analysis to different stocks. Calculate different ratios, use ML models in order to predict and matematically  
+This is a platform that is going to be used to do technical and fundamental analysis for different stocks. Calculate different ratios, use ML models in order mathematically predict stock prices and buy/sell accordingly
 
 ## Setup
 ### Environment
