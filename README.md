@@ -1,4 +1,4 @@
-# Financial Analyst (Name pending)
+`# Financial `Analyst (Name pending)
 This is a platofrm that is going to be used to do tecnical and fundamental analysis to different stocks. Calculate different ratios, use ML models in order to predict and matematically  
 
 ## Setup
@@ -48,11 +48,13 @@ Run tests
 python3 manage.py test <app_to_test>
 ```
 
-Tests are located in tests.py file
+Tests are located in `tests.py` file
 
-## Future functionalities
-- Machine Learning models to predict stock price
-- Better UX/UI dessign (because a back-end engineer designed this)
-- Buy/Sell stocks depending on price
-- Use this as a daily bassis trading platform
-- Support several users
+## Future functionalities (ordered by priority)
+1. Machine Learning models to predict stock price
+2. Support technical analysis
+3. Buy/Sell stocks depending on analysis
+4. Use this as a daily bassis trading platform
+5. Enhance UX/UI dessign (because a back-end engineer designed this)
+6. Support several users
+7. Support more languages
