@@ -48,7 +48,7 @@ Run tests
 python3 manage.py test <app_to_test>
 ```
 
-Tests are located in `tests.py` file
+Tests are located in tests directory
 
 ## Future functionalities (ordered by priority)
 1. Machine Learning models to predict stock price
