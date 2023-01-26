@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List
 from django.urls import reverse
 from django.shortcuts import render
 from django.views import generic
@@ -39,7 +39,7 @@ def new_fundamental_analysis(request: WSGIRequest) -> HttpResponse:
 
 
 # Move function away from this file
-def get_stocks(tickers: str) -> List[Stock]:
+def get_stocks(tickers: str) -> List[Any[Stock, str]]:
     stocks = []
 
     for ticker in tickers.split():
@@ -62,7 +62,7 @@ def get_stocks(tickers: str) -> List[Stock]:
 
 # Move function away from this file
 def get_errors(
-    fundamental_analysis: FundamentalAnalysis, stocks: List[Stock]
+    fundamental_analysis: FundamentalAnalysis, stocks: List[str]
 ) -> List[str]:
     errors = []
     if not fundamental_analysis.name:
@@ -75,8 +75,9 @@ def get_errors(
     return errors
 
 
-def create_fundamental_analysis(request: WSGIRequest):
-
+def create_fundamental_analysis(
+    request: WSGIRequest,
+) -> Any[HttpResponseRedirect, HttpResponse]:
     fundamental_analysis = FundamentalAnalysis()
     fundamental_analysis.name = request.POST["name"]
     fundamental_analysis.industry = request.POST["industry"]
