@@ -1,0 +1,70 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="m-5">
+  <h1>{{ stock }}</h1>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Ratio</th>
+        <th scope="col">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Current Ratio</td>
+        <td>{{ stock.current_ratio }}</td>
+      </tr>
+      <tr>
+        <td>Quick Ratio</td>
+        <td>{{ stock.quick_ratio }}</td>
+      </tr>
+      <tr>
+        <td>Cash Ratio</td>
+        <td>{{ stock.cash_ratio }}</td>
+      </tr>
+      <tr>
+        <td>Debt/Equity</td>
+        <td>{{ stock.debt_equity }}</td>
+      </tr>
+      <tr>
+        <td>Inventory Turnover</td>
+        <td>{{ stock.inventory_turnover }}</td>
+      </tr>
+      <tr>
+        <td>Days Inventory</td>
+        <td>{{ stock.days_inventory }}</td>
+      </tr>
+      <tr>
+        <td>Assets Turnover</td>
+        <td>{{ stock.assets_turnover }}</td>
+      </tr>
+      <tr>
+        <td>ROE</td>
+        <td>{{ stock.roe }}</td>
+      </tr>
+      <tr>
+        <td>Net Margin</td>
+        <td>{{ stock.net_margin }}</td>
+      </tr>
+      <tr>
+        <td>PER</td>
+        <td>{{ stock.per }}</td>
+      </tr>
+      <tr>
+        <td>PCF</td>
+        <td>{{ stock.pcf }}</td>
+      </tr>
+      <tr>
+        <td>PS</td>
+        <td>{{ stock.ps }}</td>
+      </tr>
+      <tr>
+        <td>PBV</td>
+        <td>{{ stock.pbv }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+{% endblock %}

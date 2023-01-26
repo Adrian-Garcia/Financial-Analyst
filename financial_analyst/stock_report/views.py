@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import List
 from django.urls import reverse
 from django.shortcuts import render
 from django.views import generic
@@ -29,6 +29,15 @@ def detail(request: WSGIRequest, fundamental_analysis_id: int) -> HttpResponse:
     )
 
 
+def stock_detail(request: WSGIRequest, stock_id: int) -> HttpResponse:
+    stock = get_object_or_404(Stock, pk=stock_id)
+    return render(
+        request,
+        "stock_report/stocks/detail.html",
+        {"stock": stock},
+    )
+
+
 def new_fundamental_analysis(request: WSGIRequest) -> HttpResponse:
     fundamental_analysis = FundamentalAnalysis()
     return render(
@@ -39,7 +48,7 @@ def new_fundamental_analysis(request: WSGIRequest) -> HttpResponse:
 
 
 # Move function away from this file
-def get_stocks(tickers: str) -> List[Any[Stock, str]]:
+def get_stocks(tickers: str) -> List[Stock]:
     stocks = []
 
     for ticker in tickers.split():
@@ -77,7 +86,7 @@ def get_errors(
 
 def create_fundamental_analysis(
     request: WSGIRequest,
-) -> Any[HttpResponseRedirect, HttpResponse]:
+) -> HttpResponseRedirect:
     fundamental_analysis = FundamentalAnalysis()
     fundamental_analysis.name = request.POST["name"]
     fundamental_analysis.industry = request.POST["industry"]
