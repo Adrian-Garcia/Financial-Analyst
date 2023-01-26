@@ -1,4 +1,4 @@
-`# Financial `Analyst (Name pending)
+# Financial Analyst (Name pending)
 This is a platofrm that is going to be used to do tecnical and fundamental analysis to different stocks. Calculate different ratios, use ML models in order to predict and matematically  
 
 ## Setup
