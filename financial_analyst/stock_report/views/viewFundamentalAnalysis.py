@@ -1,14 +1,12 @@
-from typing import List
 from django.urls import reverse
-from django.shortcuts import render
 from django.views import generic
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponse
-
-from stock_report.models.modelFundamentalAnalysis import FundamentalAnalysis
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect, HttpResponse
 from stock_report.models.modelStock import Stock
+from stock_report.views.viewStocks import get_stocks
+from stock_report.models.modelFundamentalAnalysis import FundamentalAnalysis
+from typing import List
 
 
 class IndexView(generic.ListView):
@@ -30,15 +28,6 @@ def detail(request: WSGIRequest, fundamental_analysis_id: int) -> HttpResponse:
     )
 
 
-def stock_detail(request: WSGIRequest, stock_id: int) -> HttpResponse:
-    stock = get_object_or_404(Stock, pk=stock_id)
-    return render(
-        request,
-        "stock_report/stocks/detail.html",
-        {"stock": stock},
-    )
-
-
 def new_fundamental_analysis(request: WSGIRequest) -> HttpResponse:
     fundamental_analysis = FundamentalAnalysis()
     return render(
@@ -46,28 +35,6 @@ def new_fundamental_analysis(request: WSGIRequest) -> HttpResponse:
         "stock_report/create.html",
         {"fundamental_analysis": fundamental_analysis, "tickers": ""},
     )
-
-
-# Move function away from this file
-def get_stocks(tickers: str) -> List[Stock]:
-    stocks = []
-
-    for ticker in tickers.split():
-        stock = Stock.objects.filter(ticker=ticker)
-
-        if stock:
-            stocks.append(stock.first())
-            continue
-
-        stock = Stock(ticker=ticker)
-        if stock.update_stock_ratios():
-            stocks.append(stock)
-            stock.save()
-            continue
-
-        stocks.append(ticker)
-
-    return stocks
 
 
 # Move function away from this file

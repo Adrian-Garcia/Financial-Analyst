@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+
 class FundamentalAnalysis(models.Model):
     name = models.CharField(max_length=30)
     industry = models.CharField(max_length=30)
