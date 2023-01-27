@@ -24,6 +24,11 @@ Make migrations
 python3 manage.py migrate
 ```
 
+If models are added or updated, create a new migration with
+```
+python3 manage.py makemigrations stock_report
+```
+
 Open django shell of the project
 ```
 python3 manage.py shell

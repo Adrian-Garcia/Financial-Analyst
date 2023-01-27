@@ -17,12 +17,12 @@
         <th scope="col">Inventory Turnover</th>
         <th scope="col">Days Inventory</th>
         <th scope="col">Assets Turnover</th>
-        <th scope="col">ROE</th>
+        <th scope="col">Return on Equity</th>
         <th scope="col">Net Margin</th>
-        <th scope="col">PER</th>
-        <th scope="col">PCF</th>
-        <th scope="col">PS</th>
-        <th scope="col">PBV</th>
+        <th scope="col">Price Earnings</th>
+        <th scope="col">Price Cash Flow</th>
+        <th scope="col">Price to Sales</th>
+        <th scope="col">Price to Book</th>
       </tr>
     </thead>
     <tbody>
@@ -36,12 +36,12 @@
         <td>{{ stock.inventory_turnover }}</td>
         <td>{{ stock.days_inventory }}</td>
         <td>{{ stock.assets_turnover }}</td>
-        <td>{{ stock.roe }}</td>
+        <td>{{ stock.return_on_equity }}</td>
         <td>{{ stock.net_margin }}</td>
-        <td>{{ stock.per }}</td>
-        <td>{{ stock.pcf }}</td>
-        <td>{{ stock.ps }}</td>
-        <td>{{ stock.pbv }}</td>
+        <td>{{ stock.price_earnings }}</td>
+        <td>{{ stock.price_cash_flow }}</td>
+        <td>{{ stock.price_to_sales }}</td>
+        <td>{{ stock.price_to_book }}</td>
         </tr>
         {% endfor %}
       </tbody>
