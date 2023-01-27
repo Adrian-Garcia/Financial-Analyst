@@ -9,42 +9,92 @@
   <table class="table">
     <thead class="thead-dark">
       <tr>
-        <th scope="col">Company</th>
-        <th scope="col">Current Ratio</th>
-        <th scope="col">Quick Ratio</th>
-        <th scope="col">Cash Ratio</th>
-        <th scope="col">Debt/Equity</th>
-        <th scope="col">Inventory Turnover</th>
-        <th scope="col">Days Inventory</th>
-        <th scope="col">Assets Turnover</th>
-        <th scope="col">Return on Equity</th>
-        <th scope="col">Net Margin</th>
-        <th scope="col">Price Earnings</th>
-        <th scope="col">Price Cash Flow</th>
-        <th scope="col">Price to Sales</th>
-        <th scope="col">Price to Book</th>
+        <th scope="col">Ratio</th>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <th scope="col">{{ stock }}</th>
+        {% endfor %}
       </tr>
     </thead>
     <tbody>
-      {% for stock in fundamental_analysis.stock_set.all %}
       <tr>
-        <th scope="row"> <a href="{% url 'stock_reports:stock_detail' stock.id %}">{{ stock }}</a></th>
-        <td>{{ stock.current_ratio }}</td>
-        <td>{{ stock.quick_ratio }}</td>
-        <td>{{ stock.cash_ratio }}</td>
-        <td>{{ stock.debt_equity }}</td>
-        <td>{{ stock.inventory_turnover }}</td>
-        <td>{{ stock.days_inventory }}</td>
-        <td>{{ stock.assets_turnover }}</td>
-        <td>{{ stock.return_on_equity }}</td>
-        <td>{{ stock.net_margin }}</td>
-        <td>{{ stock.price_earnings }}</td>
-        <td>{{ stock.price_cash_flow }}</td>
-        <td>{{ stock.price_to_sales }}</td>
-        <td>{{ stock.price_to_book }}</td>
-        </tr>
+        <td>Current Ratio</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.current_ratio }}</td>
         {% endfor %}
-      </tbody>
+      </tr>
+      <tr>
+        <td>Quick Ratio</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.quick_ratio }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Cash Ratio</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.cash_ratio }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Debt/Equity</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.debt_equity }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Inventory Turnover</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.inventory_turnover }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Days Inventory</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.days_inventory }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Assets Turnover</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.assets_turnover }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Return On Equity</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.return_on_equity }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Net Margin</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.net_margin }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Price Earnings</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.price_earnings }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Price Cash Flow</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.price_cash_flow }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Price to Sales</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.price_to_sales }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td>Price to Book</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td >{{ stock.price_to_book }}</td>
+        {% endfor %}
+      </tr>
+    </tbody>
   </table>
   {% endif %}
 
