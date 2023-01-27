@@ -48,7 +48,12 @@ Password (again): password
 ```
 
 ### Tests
-Run tests
+Run all tests
+```
+python3 manage.py test
+```
+
+Run tests ofr specific app
 ```
 python3 manage.py test <app_to_test>
 ```

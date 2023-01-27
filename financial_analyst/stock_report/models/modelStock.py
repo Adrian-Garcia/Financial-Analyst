@@ -8,6 +8,7 @@ import yfinance as yf
 
 API_KEY = "58f91c97ad7ca8846322ee09d634a66c"
 
+
 class Stock(models.Model):
     fundamental_analyses = models.ManyToManyField(FundamentalAnalysis)
 
