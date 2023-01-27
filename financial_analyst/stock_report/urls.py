@@ -1,5 +1,5 @@
 from django.urls import path
-from stock_report.views.viewStocks import stock_detail
+from stock_report.views.viewStocks import stock_detail, add_stock
 from stock_report.views.viewFundamentalAnalysis import (
     IndexView,
     detail,
@@ -20,4 +20,6 @@ urlpatterns = [
     path("create/", create_fundamental_analysis, name="create"),
     # ex: /stock_report/stock/1/
     path("stock/<int:stock_id>/", stock_detail, name="stock_detail"),
+    # ex: POST /stock_report/stock/1
+    path("<int:fundamental_analysis_id>", add_stock, name="add_stock"),
 ]

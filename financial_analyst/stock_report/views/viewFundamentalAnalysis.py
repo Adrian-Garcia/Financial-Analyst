@@ -37,7 +37,7 @@ def new_fundamental_analysis(request: WSGIRequest) -> HttpResponse:
     )
 
 
-# Move function away from this file
+# TODO: Move function away from this file
 def get_errors(
     fundamental_analysis: FundamentalAnalysis, stocks: List[str]
 ) -> List[str]:
@@ -63,22 +63,22 @@ def create_fundamental_analysis(
     stocks = get_stocks(tickers.upper())
     errors = get_errors(fundamental_analysis, stocks)
 
-    if not errors:
-        fundamental_analysis.save()
-        for stock in stocks:
-            stock.fundamental_analyses.add(fundamental_analysis)
-            stock.save()
-
-        return HttpResponseRedirect(
-            reverse("stock_reports:detail", args=(fundamental_analysis.id,))
+    if errors:
+        return render(
+            request,
+            "stock_report/create.html",
+            {
+                "fundamental_analysis": fundamental_analysis,
+                "tickers": tickers,
+                "errors": errors,
+            },
         )
 
-    return render(
-        request,
-        "stock_report/create.html",
-        {
-            "fundamental_analysis": fundamental_analysis,
-            "tickers": tickers,
-            "errors": errors,
-        },
+    fundamental_analysis.save()
+    for stock in stocks:
+        stock.fundamental_analyses.add(fundamental_analysis)
+        stock.save()
+
+    return HttpResponseRedirect(
+        reverse("stock_reports:detail", args=(fundamental_analysis.id,))
     )
