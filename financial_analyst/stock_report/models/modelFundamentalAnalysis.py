@@ -28,6 +28,11 @@ class FundamentalAnalysis(models.Model):
     # Ticker of the best stock according to model
     best_stock = models.CharField(max_length=15)
 
+    # Calculations to determine actual value
+    historical = models.FloatField(default=0)
+    intrinsic_by_industry = models.FloatField(default=0)
+    final_value = models.FloatField(default=0)
+
     def __str__(self) -> str:
         return self.name
 
