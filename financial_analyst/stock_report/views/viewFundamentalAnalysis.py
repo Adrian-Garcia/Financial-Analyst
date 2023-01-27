@@ -79,6 +79,8 @@ def create_fundamental_analysis(
         stock.fundamental_analyses.add(fundamental_analysis)
         stock.save()
 
+    fundamental_analysis.calculate_avg_ratios()
+
     return HttpResponseRedirect(
         reverse("stock_reports:detail", args=(fundamental_analysis.id,))
     )

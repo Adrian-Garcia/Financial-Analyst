@@ -34,11 +34,16 @@ class Stock(models.Model):
     price_to_book = models.FloatField(default=0)
 
     # Five year ratios
-    per_five_years = models.FloatField(default=0)
-    ps_five_years = models.FloatField(default=0)
-    pbv_five_years = models.FloatField(default=0)
+    price_earnings_five_years = models.FloatField(default=0)
+    price_to_sales_five_years = models.FloatField(default=0)
+    price_to_book_five_years = models.FloatField(default=0)
 
-    def __str__(self):
+    # Real ratios values
+    real_price_earnings = models.FloatField(default=0)
+    real_price_to_sales = models.FloatField(default=0)
+    real_price_to_book = models.FloatField(default=0)
+
+    def __str__(self) -> str:
         return f"{self.ticker}: {self.name}"
 
     def update_stock_ratios(self) -> bool:

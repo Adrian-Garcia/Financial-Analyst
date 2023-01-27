@@ -23,6 +23,7 @@
         {% for stock in fundamental_analysis.stock_set.all %}
         <th scope="col"><a href="{% url 'stock_reports:stock_detail' stock.id %}">{{ stock }}</a></th>
         {% endfor %}
+        <th scope="col">Promedio</th>
       </tr>
     </thead>
     <tbody>
@@ -31,78 +32,91 @@
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.current_ratio|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_current_ratio|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Quick Ratio</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.quick_ratio|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_quick_ratio|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Cash Ratio</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.cash_ratio|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_cash_ratio|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Debt/Equity</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.debt_equity|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_debt_equity|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Inventory Turnover</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.inventory_turnover|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_inventory_turnover|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Days Inventory</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.days_inventory|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_days_inventory|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Assets Turnover</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.assets_turnover|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_assets_turnover|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Return On Equity</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.return_on_equity|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_return_on_equity|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Net Margin</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.net_margin|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_net_margin|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price Earnings</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.price_earnings|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_price_earnings|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price Cash Flow</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.price_cash_flow|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_price_cash_flow|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price to Sales</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.price_to_sales|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_price_to_sales|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price to Book</td>
         {% for stock in fundamental_analysis.stock_set.all %}
         <td>{{ stock.price_to_book|floatformat:2 }}</td>
         {% endfor %}
+        <td>{{ fundamental_analysis.avg_price_to_book|floatformat:2 }}</td>
       </tr>
     </tbody>
   </table>

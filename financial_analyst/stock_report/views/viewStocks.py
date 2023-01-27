@@ -68,7 +68,6 @@ def add_stock(
     errors = get_errors(fundamental_analysis, stocks)
 
     if errors:
-
         return render(
             request,
             "stock_report/detail.html",
@@ -82,6 +81,8 @@ def add_stock(
     for stock in stocks:
         stock.fundamental_analyses.add(fundamental_analysis)
         stock.save()
+
+    fundamental_analysis.calculate_avg_ratios()
 
     return HttpResponseRedirect(
         reverse("stock_reports:detail", args=(fundamental_analysis.id,))
