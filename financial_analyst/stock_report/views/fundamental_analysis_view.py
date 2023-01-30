@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from stock_report.models.stock_model import Stock
 from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
-from stock_report.views.viewStocks import get_stocks
+from stock_report.views.stocks_view import get_stocks
 from typing import List
 
 
@@ -32,7 +32,7 @@ def new_fundamental_analysis(request: WSGIRequest) -> HttpResponse:
     fundamental_analysis = FundamentalAnalysis()
     return render(
         request,
-        "stock_report/create.html",
+        "stock_report/new.html",
         {"fundamental_analysis": fundamental_analysis, "tickers": ""},
     )
 
@@ -66,7 +66,7 @@ def create_fundamental_analysis(
     if errors:
         return render(
             request,
-            "stock_report/create.html",
+            "stock_report/new.html",
             {
                 "fundamental_analysis": fundamental_analysis,
                 "tickers": tickers,

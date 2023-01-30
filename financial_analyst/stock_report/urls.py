@@ -1,6 +1,6 @@
 from django.urls import path
-from stock_report.views.viewStocks import stock_detail, add_stock
-from stock_report.views.viewFundamentalAnalysis import (
+from stock_report.views.stocks_view import stock_detail, add_stock
+from stock_report.views.fundamental_analysis_view import (
     IndexView,
     detail,
     new_fundamental_analysis,
