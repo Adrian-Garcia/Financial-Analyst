@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
-from stock_report.models.modelStock import Stock
-from stock_report.models.modelFundamentalAnalysis import FundamentalAnalysis
+from stock_report.models.stock_model import Stock
+from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
 
 
 def create_stock(

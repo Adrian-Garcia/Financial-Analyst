@@ -3,9 +3,9 @@ from django.views import generic
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
-from stock_report.models.modelStock import Stock
+from stock_report.models.stock_model import Stock
+from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
 from stock_report.views.viewStocks import get_stocks
-from stock_report.models.modelFundamentalAnalysis import FundamentalAnalysis
 from typing import List
 
 

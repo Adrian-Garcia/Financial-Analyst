@@ -1,7 +1,7 @@
 from django.urls import reverse
 from typing import List
-from stock_report.models.modelStock import Stock
-from stock_report.models.modelFundamentalAnalysis import FundamentalAnalysis
+from stock_report.models.stock_model import Stock
+from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, get_object_or_404

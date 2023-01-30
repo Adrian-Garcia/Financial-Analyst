@@ -1,5 +1,5 @@
 from django.db import models
-from .modelFundamentalAnalysis import FundamentalAnalysis
+from .fundamental_analysis_model import FundamentalAnalysis
 from django.utils import timezone
 from urllib.request import urlopen
 import json
