@@ -48,7 +48,6 @@ def add_stock(
 
     tickers = request.POST["tickers"]
     stocks = get_stocks(tickers.upper())
-    # TODO: This should not work like this
     errors = get_stock_errors(fundamental_analysis, stocks)
 
     if errors:

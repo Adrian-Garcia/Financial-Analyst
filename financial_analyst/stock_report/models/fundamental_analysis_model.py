@@ -55,6 +55,9 @@ class FundamentalAnalysis(models.Model):
     # TODO: Solve when Dayss Inventory & InventoryTurnover are 0
     def calculate_avg_ratios(self) -> None:
         stocks = self.stock_set.all()
+        if not stocks:
+            return
+
         self.__restart_averages()
 
         for stock in stocks:
