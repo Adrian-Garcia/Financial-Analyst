@@ -75,4 +75,5 @@ class Stock(models.Model):
         self.price_to_sales = latest_year["priceToSalesRatio"]
         self.price_to_book = latest_year["priceToBookRatio"]
 
+        self.save()
         return True

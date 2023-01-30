@@ -23,7 +23,6 @@ def get_stocks(tickers: str) -> List[Stock]:
         stock = Stock(ticker=ticker)
         if stock.update_stock_ratios():
             stocks.append(stock)
-            stock.save()
             continue
 
         stocks.append(ticker)
