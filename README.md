@@ -13,28 +13,23 @@ Activate virtual environment
 source venv/bin/activate
 ```
 
+Run migrations
+```
+python3 manage.py migrate
+```
+
 Start local server
 ```
 python3 manage.py runserver
 ```
 
 ### Database
-Make migrations
-```
-python3 manage.py migrate
-```
-
 If models are added or updated, create a new migration with
 ```
-python3 manage.py makemigrations stock_report
+python3 manage.py makemigrations <app_name>
 ```
 
-Open django shell of the project
-```
-python3 manage.py shell
-```
-
-Or use Graphic Interface by typing:  
+Use Graphic Interface to see database information by typing:  
 ```
 python3 manage.py createsuperuser
 ``` 
@@ -45,6 +40,11 @@ Username (leave blank to use 'username'):
 Email address: mail@mail.com
 Password: password
 Password (again): password
+```
+
+Or open Django shell of the project
+```
+python3 manage.py shell
 ```
 
 ### Tests
@@ -59,6 +59,12 @@ python3 manage.py test <app_to_test>
 ```
 
 Tests are located in tests directory
+
+### Code quality 
+Run code styler in the whole project
+```
+black .
+```
 
 ## Future functionalities (ordered by priority)
 1. Machine Learning models to predict stock price
