@@ -3,6 +3,9 @@ from django.views import generic
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
+from stock_report.error_handler.fundamental_analysis_error_handler import (
+    get_fundamental_analysis_errors,
+)
 from stock_report.models.stock_model import Stock
 from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
 from stock_report.views.stocks_view import get_stocks
@@ -37,21 +40,6 @@ def new_fundamental_analysis(request: WSGIRequest) -> HttpResponse:
     )
 
 
-# TODO: Move function away from this file
-def get_errors(
-    fundamental_analysis: FundamentalAnalysis, stocks: List[str]
-) -> List[str]:
-    errors = []
-    if not fundamental_analysis.name:
-        errors.append("Analisis Fundamental debe tener nombre")
-
-    for stock in stocks:
-        if type(stock) != Stock:
-            errors.append(f"El ticker {stock} no pudo ser encontrado")
-
-    return errors
-
-
 def create_fundamental_analysis(
     request: WSGIRequest,
 ) -> HttpResponseRedirect:
@@ -61,7 +49,7 @@ def create_fundamental_analysis(
     tickers = request.POST["tickers"]
 
     stocks = get_stocks(tickers.upper())
-    errors = get_errors(fundamental_analysis, stocks)
+    errors = get_fundamental_analysis_errors(fundamental_analysis, stocks)
 
     if errors:
         return render(
