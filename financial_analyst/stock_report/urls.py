@@ -5,6 +5,7 @@ from stock_report.views.fundamental_analysis_view import (
     detail,
     new_fundamental_analysis,
     create_fundamental_analysis,
+    delete_stock_from_fundamental_analysis,
 )
 
 
@@ -22,4 +23,10 @@ urlpatterns = [
     path("stock/<int:stock_id>/", stock_detail, name="stock_detail"),
     # ex: POST /stock_report/stock/1
     path("<int:fundamental_analysis_id>", add_stock, name="add_stock"),
+    # ex: /stock_report/delete_stock_from_fundamental_analysis/1/1
+    path(
+        "<int:fundamental_analysis_id>/<int:stock_id>",
+        delete_stock_from_fundamental_analysis,
+        name="delete_stock_from_fundamental_analysis",
+    ),
 ]

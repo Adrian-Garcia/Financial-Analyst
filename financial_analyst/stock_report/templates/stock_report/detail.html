@@ -16,12 +16,15 @@
   {% if not fundamental_analysis.stock_set.all %}
   <p>El análisis fundamental no tiene acciones para analizar</p>
   {% else %}
-  <table class="table">
+  <table class="table mb-5">
     <thead class="thead-dark">
       <tr>
         <th scope="col">Ratio</th>
         {% for stock in fundamental_analysis.stock_set.all %}
-        <th scope="col"><a href="{% url 'stock_reports:stock_detail' stock.id %}">{{ stock }}</a></th>
+        <th scope="col">
+          <a href="{% url 'stock_reports:delete_stock_from_fundamental_analysis' fundamental_analysis.id stock.id %}">🗑️</a>
+          <a href="{% url 'stock_reports:stock_detail' stock.id %}">{{ stock }}</a>
+        </th>
         {% endfor %}
         <th scope="col">Promedio</th>
       </tr>
@@ -125,8 +128,8 @@
   <form action="{% url 'stock_reports:add_stock' fundamental_analysis.id %}" method="post">
     {% csrf_token %}
     <fieldset>
-      <div class="form-group mt-5">
-        <label for="name">Tickers (escribir nombres de tickers separados por espacios)</label>
+      <div class="form-group">
+        <label for="name">Añadir tickers (escribir nombres de tickers separados por espacios)</label>
         <input type="text" class="form-control" name="tickers" id="tickers", value="{{ tickers }}">
       </div>
       <button type="submit" class="btn btn-success">Añadir ticker</button>

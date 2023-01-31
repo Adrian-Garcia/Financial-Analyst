@@ -10,5 +10,4 @@ def get_fundamental_analysis_errors(
     if not fundamental_analysis.name:
         errors.append("Analisis Fundamental debe tener nombre")
 
-    errors += not_found_tickers(stocks)
-    return errors
+    return errors + not_found_tickers(stocks)

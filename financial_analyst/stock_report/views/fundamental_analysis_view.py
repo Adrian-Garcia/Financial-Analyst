@@ -72,3 +72,14 @@ def create_fundamental_analysis(
     return HttpResponseRedirect(
         reverse("stock_reports:detail", args=(fundamental_analysis.id,))
     )
+
+
+def delete_stock_from_fundamental_analysis(
+    request: WSGIRequest, fundamental_analysis_id: int, stock_id: int
+) -> HttpResponseRedirect:
+    stock = get_object_or_404(Stock, pk=stock_id)
+    stock.fundamental_analyses.remove(fundamental_analysis_id)
+
+    return HttpResponseRedirect(
+        reverse("stock_reports:detail", args=(fundamental_analysis_id,))
+    )
