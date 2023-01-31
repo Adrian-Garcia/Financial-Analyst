@@ -16,8 +16,8 @@ class FundamentalAnalysisDetailViewTest(TestCase):
         )
 
         self.assertContains(response, fundamental_analysis)
-        self.assertContains(response, google_stock.name)
-        self.assertContains(response, amazon_stock.name)
+        self.assertContains(response, google_stock)
+        self.assertContains(response, amazon_stock)
 
     def test_existing_fundamental_analysis_without_stocks(self) -> None:
         fundamental_analysis = FundamentalAnalysis.objects.create(name="FANG")
