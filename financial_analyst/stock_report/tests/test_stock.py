@@ -5,7 +5,7 @@ from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
 
 
 def create_stock(
-    name: str, ticker: str, fundamental_analyses: FundamentalAnalysis = None
+    ticker: str, name: str = None, fundamental_analyses: FundamentalAnalysis = None
 ) -> Stock:
     stock = Stock.objects.create(name=name, ticker=ticker)
 

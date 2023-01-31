@@ -5,15 +5,11 @@ from django.urls import reverse
 from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
 
 
-def create_fundamental_analysis(name: str) -> FundamentalAnalysis:
-    return FundamentalAnalysis.objects.create(name=name)
-
-
 class FundamentalAnalysisDetailViewTest(TestCase):
     def test_existing_fundamental_analysis_with_stocks(self) -> None:
-        fundamental_analysis = create_fundamental_analysis("FANG")
-        google_stock = create_stock("Google", "GOOGL", [fundamental_analysis])
-        amazon_stock = create_stock("Amazon", "AMZN", [fundamental_analysis])
+        fundamental_analysis = FundamentalAnalysis.objects.create(name="FANG")
+        google_stock = create_stock("GOOGL", "Google", [fundamental_analysis])
+        amazon_stock = create_stock("AMZN", "Amazon", [fundamental_analysis])
 
         response = self.client.get(
             reverse("stock_reports:detail", args=(fundamental_analysis.id,))
@@ -24,7 +20,7 @@ class FundamentalAnalysisDetailViewTest(TestCase):
         self.assertContains(response, amazon_stock.name)
 
     def test_existing_fundamental_analysis_without_stocks(self) -> None:
-        fundamental_analysis = create_fundamental_analysis("FANG")
+        fundamental_analysis = FundamentalAnalysis.objects.create(name="FANG")
 
         response = self.client.get(
             reverse("stock_reports:detail", args=(fundamental_analysis.id,))
@@ -39,3 +35,26 @@ class FundamentalAnalysisDetailViewTest(TestCase):
         response = self.client.get(reverse("stock_reports:detail", args=(0,)))
 
         self.assertEqual(response.status_code, 404)
+
+    def test_delete_stock_from_fundamental_analysis(self):
+        fundamental_analysis = FundamentalAnalysis.objects.create(name="FANG")
+        google_stock = create_stock("GOOGL", "Google", [fundamental_analysis])
+        amazon_stock = create_stock("AMZN", "Amazon", [fundamental_analysis])
+
+        response_delete = self.client.get(
+            reverse(
+                "stock_reports:delete_stock_from_fundamental_analysis",
+                args=(
+                    fundamental_analysis.id,
+                    google_stock.id,
+                ),
+            )
+        )
+        self.assertEqual(response_delete.status_code, 302)
+
+        response_get = self.client.get(
+            reverse("stock_reports:detail", args=(fundamental_analysis.id,))
+        )
+
+        self.assertContains(response_get, amazon_stock)
+        self.assertNotContains(response_get, google_stock)
