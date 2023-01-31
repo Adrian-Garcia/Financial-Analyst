@@ -130,6 +130,42 @@
       </tr>
     </tbody>
   </table>
+
+  <table class="table mb-5">
+    <thead class="thead-dark">
+      <tr>
+        <th>Ratios</th>
+        <th>Winner Stock</th>
+        <th>5 Años</th>
+        <th>Precio</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Price Earnings</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>Price to Sales</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>Price to Book</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+      </tr>
+    </tbody>
+  </table>
+
   {% endif %}
 
   <form action="{% url 'stock_reports:add_stock' fundamental_analysis.id %}" method="post">
