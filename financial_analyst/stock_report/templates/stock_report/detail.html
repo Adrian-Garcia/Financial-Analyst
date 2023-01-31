@@ -22,14 +22,21 @@
         <th scope="col">Ratio</th>
         {% for stock in fundamental_analysis.stock_set.all %}
         <th scope="col">
-          <a href="{% url 'stock_reports:delete_stock_from_fundamental_analysis' fundamental_analysis.id stock.id %}">🗑️</a>
           <a href="{% url 'stock_reports:stock_detail' stock.id %}">{{ stock }}</a>
+          <a href="{% url 'stock_reports:delete_stock_from_fundamental_analysis' fundamental_analysis.id stock.id %}">🗑️</a>
         </th>
         {% endfor %}
         <th scope="col">Promedio</th>
       </tr>
     </thead>
     <tbody>
+      <tr>
+        <td>Price</td>
+        {% for stock in fundamental_analysis.stock_set.all %}
+        <td>${{ stock.stock_price|floatformat:2 }} USD</td>
+        {% endfor %}
+        <td></td>
+      </tr>
       <tr>
         <td>Current Ratio</td>
         {% for stock in fundamental_analysis.stock_set.all %}

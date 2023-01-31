@@ -2,7 +2,10 @@
 
 {% block content %}
 <div class="m-5">
-  <h1>{{ stock }}</h1>
+  <div class="d-flex flex-row justify-content-between">
+    <h1>{{ stock }}</h1>
+    <h1>Stock price: ${{ stock.stock_price }} USD</h1>
+  </div>
   <table class="table">
     <thead class="thead-dark">
       <tr>

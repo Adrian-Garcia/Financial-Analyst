@@ -56,5 +56,5 @@ class FundamentalAnalysisDetailViewTest(TestCase):
             reverse("stock_reports:detail", args=(fundamental_analysis.id,))
         )
 
-        self.assertContains(response_get, amazon_stock)
         self.assertNotContains(response_get, google_stock)
+        self.assertContains(response_get, amazon_stock)
