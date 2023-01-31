@@ -17,8 +17,12 @@ class Stock(models.Model):
     name = models.CharField(max_length=30)
     last_update = models.DateTimeField(default=timezone.now)
 
-    # Ratios
+    # Price
     stock_price = models.FloatField(default=0)
+    stock_price_bid = models.FloatField(default=0)
+    stock_price_ask = models.FloatField(default=0)
+
+    # Ratios
     current_ratio = models.FloatField(default=0)
     quick_ratio = models.FloatField(default=0)
     cash_ratio = models.FloatField(default=0)
@@ -32,6 +36,8 @@ class Stock(models.Model):
     price_cash_flow = models.FloatField(default=0)
     price_to_sales = models.FloatField(default=0)
     price_to_book = models.FloatField(default=0)
+
+    # TODO: Calculate next 6 ratios
 
     # Five year ratios
     price_earnings_five_years = models.FloatField(default=0)
@@ -47,6 +53,16 @@ class Stock(models.Model):
         return f"{self.ticker}: {self.name}"
 
     def update_stock_ratios(self) -> bool:
+        if (
+            self.__financialmodelingprep_update_stock_ratios()
+            and self.__yf_update_stock_ratios()
+        ):
+            self.save()
+            return True
+
+        return False
+
+    def __financialmodelingprep_update_stock_ratios(self) -> bool:
         url = f"https://financialmodelingprep.com/api/v3/ratios/{self.ticker}?apikey={API_KEY}"
         response = urlopen(url, cafile=certifi.where())
         data = response.read().decode("utf-8")
@@ -58,22 +74,35 @@ class Stock(models.Model):
         latest_year = json_data[0]
         latest_year = {ratio: value or 0 for (ratio, value) in latest_year.items()}
 
-        self.stock_price = 0.0
-        self.current_ratio = latest_year["currentRatio"]
-        self.quick_ratio = latest_year["quickRatio"]
         self.cash_ratio = latest_year["cashRatio"]
-        self.debt_equity = latest_year["debtEquityRatio"]
         self.inventory_turnover = latest_year["inventoryTurnover"]
         self.assets_turnover = latest_year["assetTurnover"]
 
         self.net_margin = latest_year["netProfitMargin"]
         self.days_inventory = latest_year["daysOfInventoryOutstanding"]
 
-        self.return_on_equity = latest_year["returnOnEquity"]
         self.price_earnings = latest_year["priceEarningsRatio"]
         self.price_cash_flow = latest_year["priceCashFlowRatio"]
         self.price_to_sales = latest_year["priceToSalesRatio"]
-        self.price_to_book = latest_year["priceToBookRatio"]
 
-        self.save()
+        return True
+
+    def __yf_update_stock_ratios(self) -> bool:
+        yf_stock_info = yf.Ticker(self.ticker).info
+
+        if not yf_stock_info:
+            return False
+
+        self.name = yf_stock_info["shortName"]
+        self.stock_price_ask = yf_stock_info["ask"]
+        self.stock_price_bid = yf_stock_info["bid"]
+        self.stock_price = (self.stock_price_bid + self.stock_price_ask) / 2
+
+        self.current_ratio = yf_stock_info["currentRatio"]
+        self.quick_ratio = yf_stock_info["quickRatio"]
+
+        self.debt_equity = yf_stock_info["debtToEquity"]
+        self.return_on_equity = yf_stock_info["returnOnEquity"]
+        self.price_to_book = yf_stock_info["priceToBook"]
+
         return True
