@@ -25,9 +25,12 @@ class FundamentalAnalysis(models.Model):
     avg_price_to_sales = models.FloatField(default=0)
     avg_price_to_book = models.FloatField(default=0)
 
-    # Id of the best stock according to model
+    # Metadata of the best stock according to model
     best_stock_id = models.IntegerField(default=0)
-    best_stock_value = models.FloatField(default=0)
+    best_stock_price_earnings = models.FloatField(default=0)
+    best_stock_price_cash_flow = models.FloatField(default=0)
+    best_stock_price_to_sales = models.FloatField(default=0)
+    best_stock_price_to_book = models.FloatField(default=0)
 
     # Calculations to determine actual value
     historical = models.FloatField(default=0)
@@ -98,20 +101,24 @@ class FundamentalAnalysis(models.Model):
 
     def calculate_best_stock(self) -> None:
         stocks = self.stock_set.all()
-        best_percentage = float("-inf")
-        best_stock_value = 0
-        best_stock_id = None
+        self.best_percentage = float("-inf")
 
         if not stocks:
             return
 
         for stock in stocks:
-            stock_real_value = stock.get_real_stock_value(self)
-            current_percentage = stock_real_value / stock.price
+            stock_valuation = stock.valuate_stock(self)
+            current_percentage = stock_valuation["current_percentage"]
 
-            if current_percentage > best_percentage:
-                best_percentage = current_percentage
-                best_stock_id = stock.id
+            if current_percentage > self.best_percentage:
+                self.best_stock_id = stock.id
+                self.best_percentage = current_percentage
+                self.historical = stock_valuation["historical"]
+                self.intrinsic_by_industry = stock_valuation["intrinsic_by_industry"]
+                self.final_value = stock_valuation["final_value"]
+                self.best_stock_price_earnings = stock_valuation["per_current_value"]
+                self.best_stock_price_cash_flow = stock_valuation["pcf_current_value"]
+                self.best_stock_price_to_sales = stock_valuation["ps_current_value"]
+                self.best_stock_price_to_book = stock_valuation["pbv_current_value"]
 
-        self.best_stock_id = best_stock_id
-        self.best_stock_value = best_stock_value
+        self.save()

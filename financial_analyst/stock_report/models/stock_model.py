@@ -62,7 +62,7 @@ class Stock(models.Model):
         self.save()
         return True
 
-    def get_real_stock_value(self, fundamental_analysis) -> float:
+    def valuate_stock(self, fundamental_analysis) -> float:
         historical = (self.real_price_to_sales + self.real_price_to_book) / 2
 
         per_current_value = (fundamental_analysis.avg_price_earnings * self.price) / 2
@@ -74,7 +74,18 @@ class Stock(models.Model):
             [per_current_value, pcf_current_value, ps_current_value, pbv_current_value]
         )
 
-        return (historical + intrinsic_by_industry) / 2
+        final_value = (historical + intrinsic_by_industry) / 2
+
+        return {
+            "final_value": final_value,
+            "current_percentage": final_value / self.price,
+            "intrinsic_by_industry": intrinsic_by_industry,
+            "historical": historical,
+            "per_current_value": per_current_value,
+            "pcf_current_value": pcf_current_value,
+            "ps_current_value": ps_current_value,
+            "pbv_current_value": pbv_current_value,
+        }
 
     def __set_five_year_ratios(self, ratios) -> None:
         if len(ratios) >= 5:

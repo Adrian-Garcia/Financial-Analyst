@@ -27,6 +27,7 @@
         </th>
         {% endfor %}
         <th scope="col">Promedio</th>
+        <th scope="col">Valor</th>
       </tr>
     </thead>
     <tbody>
@@ -36,6 +37,7 @@
         <td>${{ stock.price|floatformat:2 }} USD</td>
         {% endfor %}
         <td>${{ fundamental_analysis.avg_price|floatformat:2 }} USD</td>
+        <td></td>
       </tr>
       <tr>
         <td>Current Ratio</td>
@@ -43,6 +45,7 @@
         <td>{{ stock.current_ratio|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_current_ratio|floatformat:2 }}</td>
+        <td></td>
       </tr>
       <tr>
         <td>Quick Ratio</td>
@@ -50,6 +53,7 @@
         <td>{{ stock.quick_ratio|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_quick_ratio|floatformat:2 }}</td>
+        <td></td>
       </tr>
       <tr>
         <td>Cash Ratio</td>
@@ -57,6 +61,7 @@
         <td>{{ stock.cash_ratio|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_cash_ratio|floatformat:2 }}</td>
+        <td></td>
       </tr>
       <tr>
         <td>Debt/Equity</td>
@@ -64,6 +69,7 @@
         <td>{{ stock.debt_equity|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_debt_equity|floatformat:2 }}</td>
+        <td></td>
       </tr>
       <tr>
         <td>Inventory Turnover</td>
@@ -71,6 +77,7 @@
         <td>{{ stock.inventory_turnover|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_inventory_turnover|floatformat:2 }}</td>
+        <td></td>
       </tr>
       <tr>
         <td>Days Inventory</td>
@@ -78,6 +85,7 @@
         <td>{{ stock.days_inventory|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_days_inventory|floatformat:2 }}</td>
+        <td></td>
       </tr>
       <tr>
         <td>Assets Turnover</td>
@@ -85,6 +93,7 @@
         <td>{{ stock.assets_turnover|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_assets_turnover|floatformat:2 }}</td>
+        <td></td>
       </tr>
       <tr>
         <td>Return On Equity</td>
@@ -92,6 +101,7 @@
         <td>{{ stock.return_on_equity|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_return_on_equity|floatformat:2 }}</td>
+        <td></td>
       </tr>
       <tr>
         <td>Net Margin</td>
@@ -99,6 +109,7 @@
         <td>{{ stock.net_margin|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_net_margin|floatformat:2 }}</td>
+        <td></td>
       </tr>
       <tr>
         <td>Price Earnings</td>
@@ -106,6 +117,7 @@
         <td>{{ stock.price_earnings|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_price_earnings|floatformat:2 }}</td>
+        <td>{{ fundamental_analysis.best_stock_price_earnings|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price Cash Flow</td>
@@ -113,6 +125,7 @@
         <td>{{ stock.price_cash_flow|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_price_cash_flow|floatformat:2 }}</td>
+        <td>{{ fundamental_analysis.best_stock_price_cash_flow|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price to Sales</td>
@@ -120,6 +133,7 @@
         <td>{{ stock.price_to_sales|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_price_to_sales|floatformat:2 }}</td>
+        <td>{{ fundamental_analysis.best_stock_price_to_sales|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price to Book</td>
@@ -127,6 +141,7 @@
         <td>{{ stock.price_to_book|floatformat:2 }}</td>
         {% endfor %}
         <td>{{ fundamental_analysis.avg_price_to_book|floatformat:2 }}</td>
+        <td>{{ fundamental_analysis.best_stock_price_to_book|floatformat:2 }}</td>
       </tr>
     </tbody>
   </table>
@@ -135,7 +150,7 @@
     <thead class="thead-dark">
       <tr>
         <th>Ratios</th>
-        <th>Winner Stock</th>
+        <th>{{ stock }}</th>
         <th>5 Años</th>
         <th>Precio</th>
         <th>Valor</th>
@@ -144,24 +159,41 @@
     <tbody>
       <tr>
         <td>Price Earnings</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
+        <td>{{ stock.price_earnings|floatformat:2 }}</td>
+        <td>{{ stock.price_earnings_five_years|floatformat:2 }}</td>
+        <td>{{ stock.price|floatformat:2 }}</td>
+        <td>{{ stock.real_price_earnings|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price to Sales</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
+        <td>{{ stock.price_to_sales|floatformat:2 }}</td>
+        <td>{{ stock.price_to_sales_five_years|floatformat:2 }}</td>
+        <td>{{ stock.price|floatformat:2 }}</td>
+        <td>{{ stock.real_price_to_sales|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price to Book</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
+        <td>{{ stock.price_to_book|floatformat:2 }}</td>
+        <td>{{ stock.price_to_book_five_years|floatformat:2 }}</td>
+        <td>{{ stock.price|floatformat:2 }}</td>
+        <td>{{ stock.real_price_to_book|floatformat:2 }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table mb-5">
+    <thead class="thead-dark">
+      <tr>
+        <th>Historico</th>
+        <th>Intrinseco por Induestria</th>
+        <th>Valor final</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ fundamental_analysis.historical|floatformat:2 }}</td>
+        <td>{{ fundamental_analysis.intrinsic_by_industry|floatformat:2 }}</td>
+        <td>{{ fundamental_analysis.final_value|floatformat:2 }}</td>
       </tr>
     </tbody>
   </table>
