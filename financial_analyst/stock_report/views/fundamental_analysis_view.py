@@ -24,10 +24,13 @@ def detail(request: WSGIRequest, fundamental_analysis_id: int) -> HttpResponse:
     fundamental_analysis = get_object_or_404(
         FundamentalAnalysis, pk=fundamental_analysis_id
     )
+
+    stock = Stock.objects.filter(pk=fundamental_analysis.best_stock_id).first()
+
     return render(
         request,
         "stock_report/detail.html",
-        {"fundamental_analysis": fundamental_analysis},
+        {"fundamental_analysis": fundamental_analysis, "stock": stock},
     )
 
 

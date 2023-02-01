@@ -10,7 +10,7 @@ class FundamentalAnalysis(models.Model):
     last_update = models.DateTimeField(default=timezone.now)
 
     # Averages of the ratios of the stocks
-    avg_stock_price = models.FloatField(default=0)
+    avg_price = models.FloatField(default=0)
     avg_current_ratio = models.FloatField(default=0)
     avg_quick_ratio = models.FloatField(default=0)
     avg_cash_ratio = models.FloatField(default=0)
@@ -25,8 +25,9 @@ class FundamentalAnalysis(models.Model):
     avg_price_to_sales = models.FloatField(default=0)
     avg_price_to_book = models.FloatField(default=0)
 
-    # Ticker of the best stock according to model
-    best_stock = models.CharField(max_length=15)
+    # Id of the best stock according to model
+    best_stock_id = models.IntegerField(default=0)
+    best_stock_value = models.FloatField(default=0)
 
     # Calculations to determine actual value
     historical = models.FloatField(default=0)
@@ -37,7 +38,7 @@ class FundamentalAnalysis(models.Model):
         return self.name
 
     def __restart_averages(self) -> None:
-        self.avg_stock_price = 0
+        self.avg_price = 0
         self.avg_current_ratio = 0
         self.avg_quick_ratio = 0
         self.avg_cash_ratio = 0
@@ -61,7 +62,7 @@ class FundamentalAnalysis(models.Model):
         self.__restart_averages()
 
         for stock in stocks:
-            self.avg_stock_price += stock.stock_price
+            self.avg_price += stock.price
             self.avg_current_ratio += stock.current_ratio
             self.avg_quick_ratio += stock.quick_ratio
             self.avg_cash_ratio += stock.cash_ratio
@@ -78,7 +79,7 @@ class FundamentalAnalysis(models.Model):
 
         num_stock = len(stocks)
 
-        self.avg_stock_price /= num_stock
+        self.avg_price /= num_stock
         self.avg_current_ratio /= num_stock
         self.avg_quick_ratio /= num_stock
         self.avg_cash_ratio /= num_stock
@@ -94,3 +95,23 @@ class FundamentalAnalysis(models.Model):
         self.avg_price_to_book /= num_stock
 
         self.save()
+
+    def calculate_best_stock(self) -> None:
+        stocks = self.stock_set.all()
+        best_percentage = float("-inf")
+        best_stock_value = 0
+        best_stock_id = None
+
+        if not stocks:
+            return
+
+        for stock in stocks:
+            stock_real_value = stock.get_real_stock_value(self)
+            current_percentage = stock_real_value / stock.price
+
+            if current_percentage > best_percentage:
+                best_percentage = current_percentage
+                best_stock_id = stock.id
+
+        self.best_stock_id = best_stock_id
+        self.best_stock_value = best_stock_value

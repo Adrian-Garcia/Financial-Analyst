@@ -5,6 +5,7 @@ from urllib.request import urlopen
 import json
 import certifi
 import yfinance as yf
+from statistics import mean
 
 API_KEY = "58f91c97ad7ca8846322ee09d634a66c"
 
@@ -18,9 +19,9 @@ class Stock(models.Model):
     last_update = models.DateTimeField(default=timezone.now)
 
     # Price
-    stock_price = models.FloatField(default=0)
-    stock_price_bid = models.FloatField(default=0)
-    stock_price_ask = models.FloatField(default=0)
+    price = models.FloatField(default=0)
+    price_bid = models.FloatField(default=0)
+    price_ask = models.FloatField(default=0)
 
     # Ratios
     current_ratio = models.FloatField(default=0)
@@ -37,13 +38,12 @@ class Stock(models.Model):
     price_to_sales = models.FloatField(default=0)
     price_to_book = models.FloatField(default=0)
 
-    # TODO: Calculate next 6 ratios
-
     # Five year ratios
     price_earnings_five_years = models.FloatField(default=0)
     price_to_sales_five_years = models.FloatField(default=0)
     price_to_book_five_years = models.FloatField(default=0)
 
+    # TODO: Verify that this variables are correctly named
     # Real ratios values
     real_price_earnings = models.FloatField(default=0)
     real_price_to_sales = models.FloatField(default=0)
@@ -53,25 +53,56 @@ class Stock(models.Model):
         return f"{self.ticker}: {self.name}"
 
     def update_stock_ratios(self) -> bool:
-        if (
-            self.__financialmodelingprep_update_stock_ratios()
-            and self.__yf_update_stock_ratios()
-        ):
-            self.save()
-            return True
+        if not self.__yf_update_stock_ratios():
+            return False
 
-        return False
+        if not self.__financialmodelingprep_update_stock_ratios():
+            return False
+
+        self.save()
+        return True
+
+    def get_real_stock_value(self, fundamental_analysis) -> float:
+        historical = (self.real_price_to_sales + self.real_price_to_book) / 2
+
+        per_current_value = (fundamental_analysis.avg_price_earnings * self.price) / 2
+        pcf_current_value = (fundamental_analysis.avg_price_cash_flow * self.price) / 2
+        ps_current_value = (fundamental_analysis.avg_price_to_sales * self.price) / 2
+        pbv_current_value = (fundamental_analysis.avg_price_to_book * self.price) / 2
+
+        intrinsic_by_industry = mean(
+            [per_current_value, pcf_current_value, ps_current_value, pbv_current_value]
+        )
+
+        return (historical + intrinsic_by_industry) / 2
+
+    def __set_five_year_ratios(self, ratios) -> None:
+        if len(ratios) >= 5:
+            ratios = ratios[:5]
+
+        price_earnings_five_years = []
+        price_to_sales_five_years = []
+        price_to_book_five_years = []
+
+        for stock in ratios:
+            price_earnings_five_years.append(stock["priceEarningsRatio"])
+            price_to_sales_five_years.append(stock["priceToSalesRatio"])
+            price_to_book_five_years.append(stock["priceToBookRatio"])
+
+        self.price_earnings_five_years = mean(price_earnings_five_years)
+        self.price_to_sales_five_years = mean(price_to_sales_five_years)
+        self.price_to_book_five_years = mean(price_to_book_five_years)
 
     def __financialmodelingprep_update_stock_ratios(self) -> bool:
         url = f"https://financialmodelingprep.com/api/v3/ratios/{self.ticker}?apikey={API_KEY}"
         response = urlopen(url, cafile=certifi.where())
         data = response.read().decode("utf-8")
-        json_data = json.loads(data)
+        ratios = json.loads(data)
 
-        if not json_data:
+        if not ratios:
             return False
 
-        latest_year = json_data[0]
+        latest_year = ratios[0]
         latest_year = {ratio: value or 0 for (ratio, value) in latest_year.items()}
 
         self.cash_ratio = latest_year["cashRatio"]
@@ -85,24 +116,38 @@ class Stock(models.Model):
         self.price_cash_flow = latest_year["priceCashFlowRatio"]
         self.price_to_sales = latest_year["priceToSalesRatio"]
 
+        self.__set_five_year_ratios(ratios)
+
+        self.real_price_earnings = (
+            self.price * self.price_earnings_five_years / self.price_earnings
+        )
+
+        self.real_price_to_sales = (
+            self.price * self.price_to_sales_five_years / self.price_to_sales
+        )
+
+        self.real_price_to_book = (
+            self.price * self.price_to_book_five_years / self.price_to_book
+        )
+
         return True
 
     def __yf_update_stock_ratios(self) -> bool:
-        yf_stock_info = yf.Ticker(self.ticker).info
+        ratios = yf.Ticker(self.ticker).info
 
-        if not yf_stock_info:
+        if not ratios:
             return False
 
-        self.name = yf_stock_info["shortName"]
-        self.stock_price_ask = yf_stock_info["ask"]
-        self.stock_price_bid = yf_stock_info["bid"]
-        self.stock_price = (self.stock_price_bid + self.stock_price_ask) / 2
+        self.name = ratios["shortName"]
+        self.price_ask = ratios["ask"]
+        self.price_bid = ratios["bid"]
+        self.price = (self.price_bid + self.price_ask) / 2
 
-        self.current_ratio = yf_stock_info["currentRatio"]
-        self.quick_ratio = yf_stock_info["quickRatio"]
+        self.current_ratio = ratios["currentRatio"]
+        self.quick_ratio = ratios["quickRatio"]
 
-        self.debt_equity = yf_stock_info["debtToEquity"]
-        self.return_on_equity = yf_stock_info["returnOnEquity"]
-        self.price_to_book = yf_stock_info["priceToBook"]
+        self.debt_equity = ratios["debtToEquity"]
+        self.return_on_equity = ratios["returnOnEquity"]
+        self.price_to_book = ratios["priceToBook"]
 
         return True

@@ -33,9 +33,9 @@
       <tr>
         <td>Price</td>
         {% for stock in fundamental_analysis.stock_set.all %}
-        <td>${{ stock.stock_price|floatformat:2 }} USD</td>
+        <td>${{ stock.price|floatformat:2 }} USD</td>
         {% endfor %}
-        <td></td>
+        <td>${{ fundamental_analysis.avg_price|floatformat:2 }} USD</td>
       </tr>
       <tr>
         <td>Current Ratio</td>
