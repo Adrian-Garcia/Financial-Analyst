@@ -13,6 +13,11 @@ Activate virtual environment
 source venv/bin/activate
 ```
 
+Move to project directory
+```
+cd financial_analyst
+```
+
 Run migrations
 ```
 python3 manage.py migrate
