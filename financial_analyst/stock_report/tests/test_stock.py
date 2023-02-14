@@ -2,12 +2,15 @@ from django.test import TestCase
 from django.urls import reverse
 from stock_report.models.stock_model import Stock
 from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
+import random
+
+# TODO: Implement Faker dependency on project
 
 
 def create_stock(
     ticker: str, name: str = None, fundamental_analyses: FundamentalAnalysis = None
 ) -> Stock:
-    stock = Stock.objects.create(name=name, ticker=ticker)
+    stock = Stock.objects.create(name=name, ticker=ticker, price=random.uniform(1, 100))
 
     if fundamental_analyses:
         stock.fundamental_analyses.set(fundamental_analyses)
