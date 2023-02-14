@@ -7,6 +7,7 @@ import certifi
 import yfinance as yf
 from statistics import mean
 
+# TODO: Add this to .env file
 API_KEY = "58f91c97ad7ca8846322ee09d634a66c"
 
 
@@ -76,6 +77,7 @@ class Stock(models.Model):
 
         final_value = (historical + intrinsic_by_industry) / 2
 
+        # TODO: Create a class called valuation to store this information
         return {
             "final_value": final_value,
             "current_percentage": final_value / self.price,
@@ -144,7 +146,10 @@ class Stock(models.Model):
         return True
 
     def __yf_update_stock_ratios(self) -> bool:
-        ratios = yf.Ticker(self.ticker).info
+        try:
+            ratios = yf.Ticker(self.ticker).info
+        except:
+            return False
 
         if not ratios:
             return False

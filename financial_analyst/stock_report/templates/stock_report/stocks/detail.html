@@ -16,58 +16,101 @@
     <tbody>
       <tr>
         <td>Current Ratio</td>
-        <td>{{ stock.current_ratio }}</td>
+        <td>{{ stock.current_ratio|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Quick Ratio</td>
-        <td>{{ stock.quick_ratio }}</td>
+        <td>{{ stock.quick_ratio|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Cash Ratio</td>
-        <td>{{ stock.cash_ratio }}</td>
+        <td>{{ stock.cash_ratio|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Debt/Equity</td>
-        <td>{{ stock.debt_equity }}</td>
+        <td>{{ stock.debt_equity|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Inventory Turnover</td>
-        <td>{{ stock.inventory_turnover }}</td>
+        <td>{{ stock.inventory_turnover|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Days Inventory</td>
-        <td>{{ stock.days_inventory }}</td>
+        <td>{{ stock.days_inventory|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Assets Turnover</td>
-        <td>{{ stock.assets_turnover }}</td>
+        <td>{{ stock.assets_turnover|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Return on Equity</td>
-        <td>{{ stock.return_on_equity }}</td>
+        <td>{{ stock.return_on_equity|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Net Margin</td>
-        <td>{{ stock.net_margin }}</td>
+        <td>{{ stock.net_margin|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price Earnings</td>
-        <td>{{ stock.price_earnings }}</td>
+        <td>{{ stock.price_earnings|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price Cash Flow</td>
-        <td>{{ stock.price_cash_flow }}</td>
+        <td>{{ stock.price_cash_flow|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price to Sales</td>
-        <td>{{ stock.price_to_sales }}</td>
+        <td>{{ stock.price_to_sales|floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td>5 Years Price to Sales</td>
+        <td>{{ stock.price_to_sales_five_years|floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td>Real Price to Sales</td>
+        <td>{{ stock.real_price_to_sales|floatformat:2 }}</td>
       </tr>
       <tr>
         <td>Price to Book</td>
-        <td>{{ stock.price_to_book }}</td>
+        <td>{{ stock.price_to_book|floatformat:2 }}</td>
       </tr>
     </tbody>
   </table>
 
+  <h3 class="mt-5">Ratios Analysis</h3>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Ratios</th>
+        <th scope="col">{{ stock }}</th>
+        <th scope="col">5 Years</th>
+        <th scope="col">Price</th>
+        <th scope="col">Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Price Earnings</td>
+        <td>{{ stock.price_earnings|floatformat:2 }}</td>
+        <td>{{ stock.price_earnings_five_years|floatformat:2 }}</td>
+        <td>{{ stock.price|floatformat:2 }}</td>
+        <td>{{ stock.real_price_earnings|floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td>Price to Sales</td>
+        <td>{{ stock.price_to_sales|floatformat:2 }}</td>
+        <td>{{ stock.price_to_sales_five_years|floatformat:2 }}</td>
+        <td>{{ stock.price|floatformat:2 }}</td>
+        <td>{{ stock.real_price_to_sales|floatformat:2 }}</td>
+      </tr>
+      <tr>
+        <td>Price to Book</td>
+        <td>{{ stock.price_to_book|floatformat:2 }}</td>
+        <td>{{ stock.price_to_book_five_years|floatformat:2 }}</td>
+        <td>{{ stock.price|floatformat:2 }}</td>
+        <td>{{ stock.real_price_to_book|floatformat:2 }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 {% endblock %}

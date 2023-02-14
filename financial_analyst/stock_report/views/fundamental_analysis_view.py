@@ -83,6 +83,12 @@ def delete_stock_from_fundamental_analysis(
 ) -> HttpResponseRedirect:
     stock = get_object_or_404(Stock, pk=stock_id)
     stock.fundamental_analyses.remove(fundamental_analysis_id)
+    fundamental_analysis = get_object_or_404(
+        FundamentalAnalysis, pk=fundamental_analysis_id
+    )
+
+    fundamental_analysis.calculate_avg_ratios()
+    fundamental_analysis.calculate_best_stock()
 
     return HttpResponseRedirect(
         reverse("stock_reports:detail", args=(fundamental_analysis_id,))
