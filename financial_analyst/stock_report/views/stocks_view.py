@@ -3,6 +3,7 @@ from typing import List
 from stock_report.models.stock_model import Stock
 from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
 from stock_report.error_handler.stock_error_handler import (
+    get_single_stock_errors,
     get_stock_errors,
 )
 from django.http import HttpResponseRedirect, HttpResponse
@@ -38,6 +39,33 @@ def stock_detail(request: WSGIRequest, stock_id: int) -> HttpResponse:
         {"stock": stock},
     )
 
+def new_stock(request: WSGIRequest) -> HttpResponse:
+    stock = Stock()
+    return render(
+        request,
+        "stock_report/stocks/new.html",
+        {"stock": stock, "errors": ""}
+    )
+
+def create_stock(request: WSGIRequest) -> HttpResponseRedirect:
+    stock = Stock.generate_stock(request)
+    errors = get_single_stock_errors(stock)
+
+    if errors:
+        return render(
+            request,
+            "stock_report/stocks/new.html",
+            {
+                "stock": stock,
+                "errors": errors
+            },
+        )
+
+    stock.calculate_real_values()
+    stock.save()
+    return HttpResponseRedirect(
+        reverse("stock_reports:stock_detail", args=(stock.id,))
+    )
 
 def add_stock(
     request: WSGIRequest, fundamental_analysis_id: int

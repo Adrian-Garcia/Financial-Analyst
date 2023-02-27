@@ -1,0 +1,143 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="m-5">
+  <h1 class="mt-5 mb-3">Nueva acción</h1>
+  
+  {% if errors %}
+  <div class="alert alert-danger" role="alert">
+    <ul class="mt-3">
+      {% for error in errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  
+  <form action="{% url 'stock_reports:create_stock' %}" method="post">
+    {% csrf_token %}
+    <div class="d-flex flex-row justify-content-between">
+      <div class="form-group">
+        <label for="name">Nombre de la acción</label>
+        <input type="text" class="form-control" name="name" id="name", value="{{ stock.name }}">  
+      </div>
+      <div class="form-group">
+        <label for="ticker">Ticker</label>
+        <input type="text" class="form-control" name="ticker" id="ticker", value="{{ stock.ticker }}">
+      </div>
+      <div class="form-group">
+        <label for="price">Precio</label>
+        <input type="number" step="any" class="form-control" name="price" id="price", value="{{ stock.price }}">
+      </div>
+    </div>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Ratio</th>
+          <th scope="col">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Current Ratio</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="current_ratio" id="current_ratio", value="{{ stock.current_ratio }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Quick Ratio</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="quick_ratio" id="quick_ratio", value="{{ stock.quick_ratio }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Cash Ratio</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="cash_ratio" id="cash_ratio", value="{{ stock.cash_ratio }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Debt/Equity</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="debt_equity" id="debt_equity", value="{{ stock.debt_equity }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Inventory Turnover</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="inventory_turnover" id="inventory_turnover", value="{{ stock.inventory_turnover }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Days Inventory</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="days_inventory" id="days_inventory", value="{{ stock.days_inventory }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Assets Turnover</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="assets_turnover" id="assets_turnover", value="{{ stock.assets_turnover }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Return on Equity</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="return_on_equity" id="return_on_equity", value="{{ stock.return_on_equity }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Net Margin</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="net_margin" id="net_margin", value="{{ stock.net_margin }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Price Cash Flow</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="price_cash_flow" id="price_cash_flow", value="{{ stock.price_cash_flow }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Price Earnings</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="price_earnings" id="price_earnings", value="{{ stock.price_earnings }}">
+          </td>
+        </tr>
+        <tr>
+          <td>5 Years Price Earnings</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="price_earnings_five_years" id="price_earnings_five_years", value="{{ stock.price_earnings_five_years }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Price to Sales</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="price_to_sales" id="price_to_sales", value="{{ stock.price_to_sales }}">
+          </td>
+        </tr>
+        <tr>
+          <td>5 Years Price to Sales</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="price_to_sales_five_years" id="price_to_sales_five_years", value="{{ stock.price_to_sales_five_years }}">
+          </td>
+        </tr>
+        <tr>
+          <td>Price to Book</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="price_to_book" id="price_to_book", value="{{ stock.price_to_book }}">
+          </td>
+        </tr>
+        <tr>
+          <td>5 Years Price to Book</td>
+          <td>
+            <input type="number" step="any" class="form-control" name="price_to_book_five_years" id="price_to_book_five_years", value="{{ stock.price_to_book_five_years }}">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="submit" class="btn btn-success">Crear Acción</button>
+  </form>
+
+</div>
+{% endblock %}

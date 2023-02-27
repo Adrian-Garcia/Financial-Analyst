@@ -1,6 +1,7 @@
 from django.db import models
 from .fundamental_analysis_model import FundamentalAnalysis
 from django.utils import timezone
+from django.core.handlers.wsgi import WSGIRequest
 from urllib.request import urlopen
 import json
 import certifi
@@ -89,6 +90,19 @@ class Stock(models.Model):
             "pbv_current_value": pbv_current_value,
         }
 
+    def calculate_real_values(self) -> None:
+        self.real_price_earnings = (
+            self.price * self.price_earnings_five_years / self.price_earnings
+        )
+
+        self.real_price_to_sales = (
+            self.price * self.price_to_sales_five_years / self.price_to_sales
+        )
+
+        self.real_price_to_book = (
+            self.price * self.price_to_book_five_years / self.price_to_book
+        )
+
     def __set_five_year_ratios(self, ratios) -> None:
         if len(ratios) >= 5:
             ratios = ratios[:5]
@@ -130,18 +144,7 @@ class Stock(models.Model):
         self.price_to_sales = latest_year["priceToSalesRatio"]
 
         self.__set_five_year_ratios(ratios)
-
-        self.real_price_earnings = (
-            self.price * self.price_earnings_five_years / self.price_earnings
-        )
-
-        self.real_price_to_sales = (
-            self.price * self.price_to_sales_five_years / self.price_to_sales
-        )
-
-        self.real_price_to_book = (
-            self.price * self.price_to_book_five_years / self.price_to_book
-        )
+        self.calculate_real_values()
 
         return True
 
@@ -167,3 +170,28 @@ class Stock(models.Model):
         self.price_to_book = ratios["priceToBook"]
 
         return True
+
+    def generate_stock(request: WSGIRequest):
+        stock = Stock()
+        stock.name = request.POST["name"]
+        stock.ticker = request.POST["ticker"]
+        stock.price = float(request.POST["price"])
+
+        stock.current_ratio = float(request.POST["current_ratio"])
+        stock.quick_ratio = float(request.POST["quick_ratio"])
+        stock.cash_ratio = float(request.POST["cash_ratio"])
+        stock.debt_equity = float(request.POST["debt_equity"])
+        stock.inventory_turnover = float(request.POST["inventory_turnover"])
+        stock.days_inventory = float(request.POST["days_inventory"])
+        stock.assets_turnover = float(request.POST["assets_turnover"])
+        stock.return_on_equity = float(request.POST["return_on_equity"])
+        stock.net_margin = float(request.POST["net_margin"])
+        stock.price_cash_flow = float(request.POST["price_cash_flow"])
+        stock.price_earnings = float(request.POST["price_earnings"])
+        stock.price_earnings_five_years = float(request.POST["price_earnings_five_years"])
+        stock.price_to_sales = float(request.POST["price_to_sales"])
+        stock.price_to_sales_five_years = float(request.POST["price_to_sales_five_years"])
+        stock.price_to_book = float(request.POST["price_to_book"])
+        stock.price_to_book_five_years = float(request.POST["price_to_book_five_years"])
+
+        return stock
