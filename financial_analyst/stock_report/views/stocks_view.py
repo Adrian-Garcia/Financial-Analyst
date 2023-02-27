@@ -39,13 +39,13 @@ def stock_detail(request: WSGIRequest, stock_id: int) -> HttpResponse:
         {"stock": stock},
     )
 
+
 def new_stock(request: WSGIRequest) -> HttpResponse:
     stock = Stock()
     return render(
-        request,
-        "stock_report/stocks/new.html",
-        {"stock": stock, "errors": ""}
+        request, "stock_report/stocks/new.html", {"stock": stock, "errors": ""}
     )
+
 
 def create_stock(request: WSGIRequest) -> HttpResponseRedirect:
     stock = Stock.generate_stock(request)
@@ -55,17 +55,13 @@ def create_stock(request: WSGIRequest) -> HttpResponseRedirect:
         return render(
             request,
             "stock_report/stocks/new.html",
-            {
-                "stock": stock,
-                "errors": errors
-            },
+            {"stock": stock, "errors": errors},
         )
 
     stock.calculate_real_values()
     stock.save()
-    return HttpResponseRedirect(
-        reverse("stock_reports:stock_detail", args=(stock.id,))
-    )
+    return HttpResponseRedirect(reverse("stock_reports:stock_detail", args=(stock.id,)))
+
 
 def add_stock(
     request: WSGIRequest, fundamental_analysis_id: int

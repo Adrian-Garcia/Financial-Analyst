@@ -188,9 +188,13 @@ class Stock(models.Model):
         stock.net_margin = float(request.POST["net_margin"])
         stock.price_cash_flow = float(request.POST["price_cash_flow"])
         stock.price_earnings = float(request.POST["price_earnings"])
-        stock.price_earnings_five_years = float(request.POST["price_earnings_five_years"])
+        stock.price_earnings_five_years = float(
+            request.POST["price_earnings_five_years"]
+        )
         stock.price_to_sales = float(request.POST["price_to_sales"])
-        stock.price_to_sales_five_years = float(request.POST["price_to_sales_five_years"])
+        stock.price_to_sales_five_years = float(
+            request.POST["price_to_sales_five_years"]
+        )
         stock.price_to_book = float(request.POST["price_to_book"])
         stock.price_to_book_five_years = float(request.POST["price_to_book_five_years"])
 

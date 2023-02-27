@@ -24,6 +24,7 @@ def get_stock_errors(
 
     return errors
 
+
 # TODO: Add more validations for correct data
 def get_single_stock_errors(stock: Stock) -> List[str]:
     errors = []

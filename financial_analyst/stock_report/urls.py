@@ -1,5 +1,10 @@
 from django.urls import path
-from stock_report.views.stocks_view import stock_detail, add_stock, new_stock, create_stock
+from stock_report.views.stocks_view import (
+    stock_detail,
+    add_stock,
+    new_stock,
+    create_stock,
+)
 from stock_report.views.fundamental_analysis_view import (
     IndexView,
     detail,
