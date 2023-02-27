@@ -67,10 +67,10 @@ class Stock(models.Model):
     def valuate_stock(self, fundamental_analysis) -> float:
         historical = (self.real_price_to_sales + self.real_price_to_book) / 2
 
-        per_current_value = (fundamental_analysis.avg_price_earnings * self.price) / 2
-        pcf_current_value = (fundamental_analysis.avg_price_cash_flow * self.price) / 2
-        ps_current_value = (fundamental_analysis.avg_price_to_sales * self.price) / 2
-        pbv_current_value = (fundamental_analysis.avg_price_to_book * self.price) / 2
+        per_current_value = self.price * fundamental_analysis.avg_price_earnings / self.price_earnings
+        pcf_current_value = self.price * fundamental_analysis.avg_price_cash_flow / self.price_cash_flow
+        ps_current_value = self.price *fundamental_analysis.avg_price_to_sales / self.price_to_sales
+        pbv_current_value = self.price * fundamental_analysis.avg_price_to_book / self.price_to_book
 
         intrinsic_by_industry = mean(
             [per_current_value, pcf_current_value, ps_current_value, pbv_current_value]
