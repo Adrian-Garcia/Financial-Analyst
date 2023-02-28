@@ -1,5 +1,6 @@
 from django.db import models
 from .fundamental_analysis_model import FundamentalAnalysis
+from stock_report.classes.stock_valuation import StockValuation
 from django.utils import timezone
 from django.core.handlers.wsgi import WSGIRequest
 from urllib.request import urlopen
@@ -64,7 +65,7 @@ class Stock(models.Model):
         self.save()
         return True
 
-    def valuate_stock(self, fundamental_analysis) -> float:
+    def valuate_stock(self, fundamental_analysis) -> StockValuation:
         historical = (self.real_price_to_sales + self.real_price_to_book) / 2
 
         per_current_value = (
@@ -86,17 +87,20 @@ class Stock(models.Model):
 
         final_value = (historical + intrinsic_by_industry) / 2
 
-        # TODO: Create a class called valuation to store this information
-        return {
-            "final_value": final_value,
-            "current_percentage": final_value / self.price,
-            "intrinsic_by_industry": intrinsic_by_industry,
-            "historical": historical,
-            "per_current_value": per_current_value,
-            "pcf_current_value": pcf_current_value,
-            "ps_current_value": ps_current_value,
-            "pbv_current_value": pbv_current_value,
-        }
+        stock_valuation = StockValuation(
+            final_value=final_value,
+            current_percentage=final_value / self.price,
+            intrinsic_by_industry=intrinsic_by_industry,
+            historical=historical,
+            per_current_value=per_current_value,
+            pcf_current_value=pcf_current_value,
+            ps_current_value=ps_current_value,
+            pbv_current_value=pbv_current_value,
+        )
+
+        print("======================", stock_valuation)
+
+        return stock_valuation
 
     def calculate_real_values(self) -> None:
         self.real_price_earnings = (
