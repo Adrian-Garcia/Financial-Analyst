@@ -1,5 +1,5 @@
 from typing import List
-from stock_report.error_handler.stock_error_handler import not_found_tickers
+from stock_report.error_handlers.stock_error_handler import not_found_tickers
 from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
 
 

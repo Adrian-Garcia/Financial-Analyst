@@ -2,7 +2,7 @@ from django.urls import reverse
 from typing import List
 from stock_report.models.stock_model import Stock
 from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
-from stock_report.error_handler.stock_error_handler import (
+from stock_report.error_handlers.stock_error_handler import (
     get_single_stock_errors,
     get_stock_errors,
 )

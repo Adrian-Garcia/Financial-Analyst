@@ -3,7 +3,7 @@ from django.views import generic
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
-from stock_report.error_handler.fundamental_analysis_error_handler import (
+from stock_report.error_handlers.fundamental_analysis_error_handler import (
     get_fundamental_analysis_errors,
 )
 from stock_report.models.stock_model import Stock
