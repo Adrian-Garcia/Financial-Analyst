@@ -32,6 +32,13 @@
           <label for="name">Tickers (escribir nombres de tickers separados por espacios)</label>
           <input type="text" class="form-control" name="tickers" id="tickers", value="{{ tickers }}">
         </div>
+        <div class="form-check mb-5">
+          <input type="checkbox" class="form-check-input" name="first_ticker_analysis" id="first_ticker_analysis" value="" {{ first_ticker_analysis }}>
+          <label class="form-check-label" for="first_ticker_analysis">
+            Hacer analisis fundamental con base el primer ticker del analisis
+          </label>
+        </div>
+        
         <button type="submit" class="btn btn-success">Crear</button>
       </fieldset>
     </form>

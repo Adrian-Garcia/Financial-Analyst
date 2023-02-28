@@ -72,10 +72,11 @@ black .
 ```
 
 ## Future functionalities (ordered by priority)
-1. Machine Learning models to predict stock price
-2. Support technical analysis
-3. Buy/Sell stocks depending on analysis
-4. Use this as a daily bassis trading platform
-5. Enhance UX/UI dessign (because a back-end engineer designed this)
-6. Support several users
-7. Support more languages
+1. Sign In / Log In
+2. Machine Learning models to predict stock price
+3. Support technical analysis
+4. Buy/Sell stocks depending on analysis
+5. Use this as a daily bassis trading platform
+6. Enhance UX/UI dessign (because a back-end engineer designed this)
+7. Support several users
+8. Support more languages

@@ -39,7 +39,11 @@ def new_fundamental_analysis(request: WSGIRequest) -> HttpResponse:
     return render(
         request,
         "stock_report/new.html",
-        {"fundamental_analysis": fundamental_analysis, "tickers": ""},
+        {
+            "fundamental_analysis": fundamental_analysis,
+            "tickers": "",
+            "first_ticker_analysis": "",
+        },
     )
 
 
@@ -49,6 +53,7 @@ def create_fundamental_analysis(
     fundamental_analysis = FundamentalAnalysis()
     fundamental_analysis.name = request.POST["name"]
     fundamental_analysis.industry = request.POST["industry"]
+    first_ticker_analysis = True if "first_ticker_analysis" in request.POST else False
     tickers = request.POST["tickers"]
 
     stocks = get_stocks(tickers.upper())
@@ -62,6 +67,7 @@ def create_fundamental_analysis(
                 "fundamental_analysis": fundamental_analysis,
                 "tickers": tickers,
                 "errors": errors,
+                "first_ticker_analysis": "checked" if first_ticker_analysis else "",
             },
         )
 
@@ -71,7 +77,11 @@ def create_fundamental_analysis(
         stock.save()
 
     fundamental_analysis.calculate_avg_ratios()
-    fundamental_analysis.calculate_best_stock()
+
+    if first_ticker_analysis:
+        fundamental_analysis.calculate_stock_fundamental_analysis()
+    else:
+        fundamental_analysis.calculate_best_stock()
 
     return HttpResponseRedirect(
         reverse("stock_reports:detail", args=(fundamental_analysis.id,))

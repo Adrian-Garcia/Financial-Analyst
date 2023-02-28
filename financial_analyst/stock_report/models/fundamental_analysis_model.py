@@ -99,6 +99,25 @@ class FundamentalAnalysis(models.Model):
 
         self.save()
 
+    def update_best_stock_with_valuation(self, stock, stock_valuation) -> None:
+        self.best_stock_id = stock.id
+        self.best_percentage = stock_valuation["current_percentage"]
+        self.historical = stock_valuation["historical"]
+        self.intrinsic_by_industry = stock_valuation["intrinsic_by_industry"]
+        self.final_value = stock_valuation["final_value"]
+        self.best_stock_price_earnings = stock_valuation["per_current_value"]
+        self.best_stock_price_cash_flow = stock_valuation["pcf_current_value"]
+        self.best_stock_price_to_sales = stock_valuation["ps_current_value"]
+        self.best_stock_price_to_book = stock_valuation["pbv_current_value"]
+
+    def calculate_stock_fundamental_analysis(self) -> None:
+        stock = self.stock_set.all()[0]
+        self.update_best_stock_with_valuation(
+            stock=stock, stock_valuation=stock.valuate_stock(self)
+        )
+
+        self.save()
+
     def calculate_best_stock(self) -> None:
         stocks = self.stock_set.all()
         self.best_percentage = float("-inf")
@@ -108,17 +127,10 @@ class FundamentalAnalysis(models.Model):
 
         for stock in stocks:
             stock_valuation = stock.valuate_stock(self)
-            current_percentage = stock_valuation["current_percentage"]
 
-            if current_percentage > self.best_percentage:
-                self.best_stock_id = stock.id
-                self.best_percentage = current_percentage
-                self.historical = stock_valuation["historical"]
-                self.intrinsic_by_industry = stock_valuation["intrinsic_by_industry"]
-                self.final_value = stock_valuation["final_value"]
-                self.best_stock_price_earnings = stock_valuation["per_current_value"]
-                self.best_stock_price_cash_flow = stock_valuation["pcf_current_value"]
-                self.best_stock_price_to_sales = stock_valuation["ps_current_value"]
-                self.best_stock_price_to_book = stock_valuation["pbv_current_value"]
+            if stock_valuation["current_percentage"] > self.best_percentage:
+                self.update_best_stock_with_valuation(
+                    stock=stock, stock_valuation=stock.valuate_stock(self)
+                )
 
         self.save()
