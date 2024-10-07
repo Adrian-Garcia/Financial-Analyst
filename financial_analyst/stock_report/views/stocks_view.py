@@ -1,4 +1,5 @@
 from django.urls import reverse
+from django.views import generic
 from typing import List
 from stock_report.models.stock_model import Stock
 from stock_report.models.fundamental_analysis_model import FundamentalAnalysis
@@ -9,6 +10,14 @@ from stock_report.error_handlers.stock_error_handler import (
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, get_object_or_404
+
+
+class StockIndexView(generic.ListView):
+    template_name = "stock_report/stocks/index.html"
+    context_object_name = "stock_list"
+
+    def get_queryset(self) -> List[Stock]:
+        return Stock.objects.all()
 
 
 def get_stocks(tickers: str) -> List[Stock]:

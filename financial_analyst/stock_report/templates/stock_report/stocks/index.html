@@ -1,0 +1,23 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+<div class="m-5">
+  <header class="d-flex justify-content-between">
+    <h1>Available stocks for Analysis</h1>
+  </header>
+  <main>
+    {% if stock_list %}
+      <ul>
+        {% for stock in stock_list %}
+          <li>
+            <a href="{% url 'stock_reports:stock_detail' stock.id %}">
+              {{ stock.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+    <p>No hay acciones disponibles</p>
+    {% endif %}
+  </main>
+</div>
+{% endblock %}

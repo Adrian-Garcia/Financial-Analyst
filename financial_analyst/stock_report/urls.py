@@ -1,5 +1,6 @@
 from django.urls import path
 from stock_report.views.stocks_view import (
+    StockIndexView,
     stock_detail,
     add_stock,
     new_stock,
@@ -38,4 +39,6 @@ urlpatterns = [
         delete_stock_from_fundamental_analysis,
         name="delete_stock_from_fundamental_analysis",
     ),
+    # ex: /stock_report/stock/
+    path("stock/", StockIndexView.as_view(), name="stock_index"),
 ]
