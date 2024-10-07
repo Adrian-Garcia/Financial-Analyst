@@ -2,7 +2,13 @@
 
 {% block content %}
 <div class="m-5">
-  <h1>{{ fundamental_analysis.name }}</h1>
+  <div class="d-flex flex-row justify-content-between">
+    <h1>{{ fundamental_analysis.name }}</h1>
+    <div>
+      <p><b>Last Update:</b> {{ fundamental_analysis.last_update }}</p>
+    </div>
+    
+  </div>
   {% if errors %}
   <div class="alert alert-danger" role="alert">
     <ul class="mt-3">

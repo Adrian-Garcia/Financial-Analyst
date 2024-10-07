@@ -2,8 +2,9 @@
 
 {% block content %}
 <div class="m-5">
-  <div class="d-flex flex-row justify-content-between">
+  <div class="d-flex flex-row justify-content-between align-items-center">
     <h1>{{ stock }}</h1>
+    <p><b>Last Update:</b> {{ stock.last_update }}</p>
     <h1>Stock price: ${{ stock.price }} USD</h1>
   </div>
   <table class="table">
